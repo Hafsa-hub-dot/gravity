@@ -119,6 +119,19 @@ html,body{width:100%;height:100%;height:100dvh;overflow:hidden;background:#eef4f
 .law-specific{padding:24px;border:1px solid #dbe8eb;border-radius:16px;margin:16px 0;background:#fff}.law-specific .law-sequence{color:#087d87;font:700 12px "El Messiri";margin-bottom:10px}
 .law-specific h3{font:700 20px "El Messiri";color:#234d5e;margin:0 0 14px}.law-specific .meaning{font:400 clamp(24px,2.3vw,33px)/1.33 "Lateef";margin:14px 0 0}
 @media(max-width:740px){.law-family-card{padding:15px;min-height:100px}.law-family-card .symbol{width:44px;height:44px}.law-family-card .count{font-size:11px}}
+
+.boost-cover{border:1px solid #e6d7db;border-top:7px solid #781e3b;border-radius:22px;background:linear-gradient(125deg,#fff,#fef6f8);padding:clamp(25px,3.8vw,49px);margin:22px 0;text-align:center}
+.boost-cover .boost-star{height:64px;width:64px;margin:0 auto 19px;display:grid;place-items:center;border-radius:20px;color:#fff;background:#781e3b;font:700 33px "El Messiri"}
+.boost-cover .boost-keyword{display:block;width:100%;border:0;border-radius:15px;padding:15px;background:#e8f6f6;color:#106e7d;font:700 clamp(29px,3.7vw,47px)/1.5 "El Messiri";margin:18px 0;transition:transform .15s}
+.boost-cover .boost-keyword:active{transform:scale(.98)}
+.boost-cover .boost-message{font:500 clamp(29px,3.2vw,43px)/1.32 "Markazi Text";color:#394d59;min-height:105px;margin:24px 0 15px}
+.boost-cover .boost-hint{font:700 12px/1.8 "El Messiri";color:#687c85}
+.boost-situation{display:block;width:100%;background:white;border:1px solid #dbe7ea;border-right:6px solid #087d87;border-radius:16px;text-align:right;padding:21px 25px;margin:12px 0;min-height:94px}
+.boost-situation:nth-child(2){border-right-color:#781e3b}.boost-situation:nth-child(3){border-right-color:#ba945b}
+.boost-situation strong{font:700 19px "El Messiri";display:block;color:#27475a}.boost-situation small{font:600 12px/1.6 "El Messiri";display:block;color:#6f8188;margin-top:7px}
+.boost-action{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin-top:24px}
+.boost-action button{padding:11px 18px;border:1px solid #c3dce0;color:#24647a;background:white;border-radius:10px;font:700 12px "El Messiri"}.boost-action button.primary{color:#fff;background:#781e3b;border-color:#781e3b}
+@media(max-width:740px){.boost-cover{padding:22px 17px}.boost-situation{padding:17px 19px}}
 </style></head><body>
 <div class="app-shell">
 <header class="app-header"><div class="app-left"><div class="qatari-mark" aria-hidden="true">✦</div><div><b>مداري | تعلّمي الفيزياء</b><small>إعداد الأستاذة حفصة طيبي • 2026 - 2027</small></div></div>
@@ -159,7 +172,7 @@ function appBack(){clearTimers();if(appHistory.length){const prev=appHistory.pop
 function appHome(){clearTimers();appHistory.length=0;s.tab="pages";s.page=null;s.problem=null;s.law=null;s.bookPicker=false;s.lawCategory=null;render()}
 function pushNav(){appHistory.push({tab:s.tab,page:s.page,problem:s.problem,law:s.law,bookPicker:s.bookPicker,lawCategory:s.lawCategory});if(appHistory.length>40)appHistory.shift()}
 function syncApp(){
-const title=s.tab==="pages"?(s.page===null?(s.bookPicker?"صفحات الكتاب":"الرئيسية"):"مسائل صفحة "+s.page):s.tab==="solved"?(s.problem===null?"المسائل المحلولة":"السؤال "+s.problem):s.tab==="laws"?(s.lawCategory===null?"مجموعات القوانين":LAW_GROUPS[s.lawCategory].title):s.tab==="derivations"?"الاشتقاقات":s.tab==="symbols"?"الرموز والثوابت":s.tab==="summaries"?"الملخصات والتعاريف":s.tab==="focus"?"مسرح الستارة":"كلمات التشجيع";
+const title=s.tab==="pages"?(s.page===null?(s.bookPicker?"صفحات الكتاب":"الرئيسية"):"مسائل صفحة "+s.page):s.tab==="solved"?(s.problem===null?"المسائل المحلولة":"السؤال "+s.problem):s.tab==="laws"?(s.lawCategory===null?"مجموعات القوانين":LAW_GROUPS[s.lawCategory].title):s.tab==="derivations"?"الاشتقاقات":s.tab==="symbols"?"الرموز والثوابت":s.tab==="summaries"?"الملخصات والتعاريف":s.tab==="focus"?"مسرح الستارة":"رسالة تناسب اللحظة";
 el("appPath").textContent=title;el("appBack").disabled=appHistory.length===0;
 document.querySelectorAll(".app-dock button").forEach(b=>b.classList.toggle("on",b.dataset.dock===s.tab||b.dataset.dock==="pages"&&s.tab==="pages"&&s.page===null||b.dataset.dock==="books"&&s.tab==="pages"&&s.page!==null))
 }
@@ -268,27 +281,23 @@ function memoryAnswer(i){if(memory.phase!=="question")return;memory.chosen=i;mem
 function retryMemory(){clearTimers();memory.phase="ready";memory.chosen=null;focus()}
 function nextMemory(){clearTimers();memory.index=(memory.index+1)%MEMORY_ROUNDS.length;memory.phase="ready";memory.chosen=null;focus()}
 
-const POSITIVE_WORDS={adj:["قادرة","حريصة","مصممة","مواظبة"],noun:["الفهم","التعلّم","التقدم","المحاولة"],start:["كل خطوة","كل محاولة","كل مراجعة","كل فكرة"],end:["تقربني من الفهم","تزيد معرفتي","تساعدني على التقدم","تعلمني شيئًا جديدًا"]};
-const EXTRA_QUOTES=["اختاري مسألة واحدة فقط ثم انتقلي للتالية.","الرجوع إلى الشرح جزء طبيعي من التعلم.","فهم المطلوب أهم من سرعة التعويض.","يمكنكِ المحاولة مرة أخرى بالطريقة التي تناسبكِ.","لا ضرورة للاستعجال؛ خطوة واحدة تكفي للبداية.","كلما فهمتِ السبب وراء القانون أصبح تطبيقه أسهل."];
-const positive={template:0,adj:0,noun:0,start:0,end:0,selected:"adj",quote:0};
-function positiveSentence(){
-if(positive.template===0)return 'أنا <button class="word maroon" onclick="changePositive(\'adj\')">'+e(POSITIVE_WORDS.adj[positive.adj])+'</button> على <button class="word" onclick="changePositive(\'noun\')">'+e(POSITIVE_WORDS.noun[positive.noun])+'</button>.';
-return '<button class="word maroon" onclick="changePositive(\'start\')">'+e(POSITIVE_WORDS.start[positive.start])+'</button> <button class="word" onclick="changePositive(\'end\')">'+e(POSITIVE_WORDS.end[positive.end])+'</button>.';
-}
+const BOOST_GROUPS=[{"title":"قبل أن أبدأ","subtitle":"خطوة صغيرة تكفي للبداية","entries":[{"word":"أبدأ","message":"ليس مطلوبًا فهم المسألة كلها فورًا؛ اقرئي المطلوب فقط في البداية."},{"word":"أرتّب","message":"اكتبي المعطيات أولًا، ثم اسألي: ما الذي أحتاج حسابه؟"},{"word":"أتعلّم","message":"فهم سبب اختيار القانون أهم من حفظ شكل المعادلة وحده."},{"word":"أتقدّم","message":"يمكنكِ الانتقال إلى خطوة واحدة، ثم العودة لمراجعتها عند الحاجة."}]},{"title":"عندما تبدو المسألة صعبة","subtitle":"نحوّل الصعوبة إلى خطوات واضحة","entries":[{"word":"أفكّك","message":"قسّمي السؤال إلى المعطيات والمطلوب والقانون؛ لا تحاولي حلّه دفعة واحدة."},{"word":"أراجع","message":"إذا لم تتضح معادلة، ارجعي إلى الاشتقاق وشاهدي كيف وصلنا إليها."},{"word":"أتحقّق","message":"راجعي الوحدات أولًا؛ الفرق بين الكيلومتر والمتر يغيّر الناتج."},{"word":"أعيد","message":"يمكنكِ إعادة التعويض بهدوء. تصحيح خطوة واحدة جزء من الفهم."}]},{"title":"بعد أن أحاول","subtitle":"نستفيد مما أنجزناه بالفعل","entries":[{"word":"أنجزت","message":"أنهيتِ محاولة؛ قارني طريقتكِ بالشرح وانظري أين اتفقت الخطوات."},{"word":"أفهم","message":"اشرحي لنفسكِ لماذا استُخدم القانون. هذا يثبت الفكرة أكثر من الرقم وحده."},{"word":"ألاحظ","message":"إذا اختلف الناتج، قارني المسافة والوحدة وخطوة التعويض."},{"word":"أواصل","message":"بعد أن تفهمي هذه المسألة يمكنكِ اختيار مربع آخر من صفحة الكتاب."}]}];
+const boostState={group:null,index:0};
+function boostSelect(group){if(group<0||group>=BOOST_GROUPS.length)return;boostState.group=group;boostState.index=0;rest();}
+function boostNext(){if(boostState.group===null)return;boostState.index=(boostState.index+1)%BOOST_GROUPS[boostState.group].entries.length;rest();}
+function boostChooseGroup(){boostState.group=null;rest();}
 function rest(){
-const slots=positive.template===0?["adj","noun"]:["start","end"];const active=slots.includes(positive.selected)?positive.selected:slots[0];
-show('<div class="eyebrow">ركن الكلمات التشجيعية</div><h1 class="title">اصنعي عبارتكِ بنفسكِ</h1><p class="subtitle">اضغطي على أي كلمة ملوّنة لتتغير مباشرة، أو اختاري كلمتكِ من البدائل تحتها.</p>'+
-'<div class="word-board"><div class="eyebrow">عبارتكِ الآن</div><div class="sentence">'+positiveSentence()+'</div><p class="fine">اضغطي على الكلمة الملوّنة مرة أخرى لتغييرها.</p></div>'+
-'<article class="paper"><h3>اختاري الكلمات التي تناسبكِ</h3><div class="m-controls">'+slots.map(x=>'<button class="'+(x===active?"primary":"")+'" onclick="positiveSlot(\''+x+'\')">'+(x==="adj"?"الكلمة الأولى":x==="noun"?"الكلمة الثانية":x==="start"?"بداية الجملة":"نهاية الجملة")+'</button>').join('')+'</div>'+
-'<div class="word-choices">'+POSITIVE_WORDS[active].map((x,i)=>'<button class="'+(positive[active]===i?"current":"")+'" onclick="positiveChoose(\''+active+'\','+i+')">'+e(x)+'</button>').join('')+'</div></article>'+
-'<div class="m-controls"><button class="primary" onclick="positiveSwitch()">تغيير شكل العبارة ↻</button><button onclick="positiveNextQuote()">رسالة أخرى ✦</button></div>'+
-'<article class="paper" style="margin-top:24px;text-align:center"><div class="breathing-circle" aria-hidden="true"></div><p class="subtitle" id="positiveQuote">'+e(EXTRA_QUOTES[positive.quote])+'</p><p class="fine">هذه مساحة اختيارية للاستراحة. لا درجات ولا مؤقتات.</p></article>');
+if(boostState.group===null){
+return show('<div class="eyebrow">رسالة تناسب اللحظة</div><h1 class="title">اختاري ما تحتاجينه الآن</h1><p class="subtitle">اختاري موقفًا واحدًا، وستجدين كلمة ورسالة قصيرة تساعدكِ على مواصلة المراجعة. لا حاجة لتركيب جمل أو اختيار كلمات كثيرة.</p>'+
+'<div class="app-menu-stack">'+BOOST_GROUPS.map((g,i)=>'<button class="boost-situation" onclick="boostSelect('+i+')"><strong>'+e(g.title)+'</strong><small>'+e(g.subtitle)+'</small></button>').join('')+'</div>');
 }
-function changePositive(key){positive[key]=(positive[key]+1)%POSITIVE_WORDS[key].length;positive.selected=key;rest()}
-function positiveSlot(key){positive.selected=key;rest()}
-function positiveChoose(key,index){positive[key]=index;positive.selected=key;rest()}
-function positiveSwitch(){positive.template=(positive.template+1)%2;positive.selected=positive.template===0?"adj":"start";rest()}
-function positiveNextQuote(){positive.quote=(positive.quote+1)%EXTRA_QUOTES.length;const v=el("positiveQuote");if(v)v.textContent=EXTRA_QUOTES[positive.quote]}
+const g=BOOST_GROUPS[boostState.group],item=g.entries[boostState.index];
+return show('<div class="eyebrow">'+e(g.title)+' • رسالة '+(boostState.index+1)+' من '+g.entries.length+'</div>'+
+'<div class="boost-cover"><div class="boost-star">✦</div><p class="small">'+e(g.subtitle)+'</p>'+
+'<button class="boost-keyword" onclick="boostNext()" aria-label="اضغطي لتغيير كلمة التشجيع">'+e(item.word)+'</button>'+
+'<p class="boost-message">'+e(item.message)+'</p><div class="boost-hint">اضغطي على الكلمة التركوازية لتغييرها والاطلاع على رسالة مختلفة.</div></div>'+
+'<div class="boost-action"><button class="primary" onclick="boostNext()">رسالة مختلفة ←</button><button onclick="boostChooseGroup()">اختيار موقف آخر</button><button onclick="tab(\'pages\')">صفحات الكتاب</button></div>');
+}
 
 function togglePrint(force){const menu=el('printMenu'),open=typeof force==='boolean'?force:menu.hidden;menu.hidden=!open;el('printButton').setAttribute('aria-expanded',String(open))}
 document.addEventListener('pointerdown',event=>{if(!el('printer').contains(event.target))togglePrint(false)});
