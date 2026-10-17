@@ -108,6 +108,17 @@ html,body{width:100%;height:100%;height:100dvh;overflow:hidden;background:#eef4f
 .book-picker-top p{font:500 clamp(26px,2.7vw,37px)/1.2 "Markazi Text";margin:0}
 @media(max-width:740px){.book-square-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.book-square{padding:13px 9px}.book-square .sq-num{font-size:37px}.book-square .sq-title{font-size:13px}}
 @media(max-width:370px){.book-square-grid{gap:8px}.book-square .sq-title{font-size:12px}.book-square .sq-parts{font-size:10px}}
+
+.law-family{display:flex;flex-direction:column;gap:14px;margin:22px 0}
+.law-family-card{display:flex;gap:14px;align-items:center;text-align:right;background:#fff;border:1px solid #dae7ea;border-right:6px solid #087d87;border-radius:16px;padding:21px 24px;min-height:118px;width:100%}
+.law-family-card:hover{background:#f6fbfb;border-color:#87c2ca}.law-family-card .symbol{height:55px;width:55px;border-radius:15px;display:grid;place-items:center;background:#eaf7f7;color:#087d87;flex-shrink:0;font:700 26px "El Messiri"}
+.law-family-card .family-text{flex:1;min-width:0}.law-family-card strong{display:block;font:700 clamp(16px,1.8vw,23px)/1.4 "El Messiri";color:#284758}.law-family-card small{display:block;font:600 12px/1.6 "El Messiri";color:#657983;margin-top:6px}
+.law-family-card .count{font:700 12px "El Messiri";color:#781e3b;white-space:nowrap}
+.law-family-detail h2{font:700 clamp(21px,2.6vw,33px)/1.45 "El Messiri";color:#781e3b;margin:0 0 14px}
+.law-family-detail .family-intro{font:500 clamp(26px,2.9vw,38px)/1.3 "Markazi Text";margin:0 0 24px}
+.law-specific{padding:24px;border:1px solid #dbe8eb;border-radius:16px;margin:16px 0;background:#fff}.law-specific .law-sequence{color:#087d87;font:700 12px "El Messiri";margin-bottom:10px}
+.law-specific h3{font:700 20px "El Messiri";color:#234d5e;margin:0 0 14px}.law-specific .meaning{font:400 clamp(24px,2.3vw,33px)/1.33 "Lateef";margin:14px 0 0}
+@media(max-width:740px){.law-family-card{padding:15px;min-height:100px}.law-family-card .symbol{width:44px;height:44px}.law-family-card .count{font-size:11px}}
 </style></head><body>
 <div class="app-shell">
 <header class="app-header"><div class="app-left"><div class="qatari-mark" aria-hidden="true">✦</div><div><b>مداري | تعلّمي الفيزياء</b><small>إعداد الأستاذة حفصة طيبي • 2026 - 2027</small></div></div>
@@ -148,7 +159,7 @@ function appBack(){clearTimers();if(appHistory.length){const prev=appHistory.pop
 function appHome(){clearTimers();appHistory.length=0;s.tab="pages";s.page=null;s.problem=null;s.law=null;s.bookPicker=false;s.lawCategory=null;render()}
 function pushNav(){appHistory.push({tab:s.tab,page:s.page,problem:s.problem,law:s.law,bookPicker:s.bookPicker,lawCategory:s.lawCategory});if(appHistory.length>40)appHistory.shift()}
 function syncApp(){
-const title=s.tab==="pages"?(s.page===null?(s.bookPicker?"صفحات الكتاب":"الرئيسية"):"مسائل صفحة "+s.page):s.tab==="solved"?(s.problem===null?"المسائل المحلولة":"السؤال "+s.problem):s.tab==="laws"?"القوانين فقط":s.tab==="derivations"?"الاشتقاقات":s.tab==="symbols"?"الرموز والثوابت":s.tab==="summaries"?"الملخصات والتعاريف":s.tab==="focus"?"مسرح الستارة":"كلمات التشجيع";
+const title=s.tab==="pages"?(s.page===null?(s.bookPicker?"صفحات الكتاب":"الرئيسية"):"مسائل صفحة "+s.page):s.tab==="solved"?(s.problem===null?"المسائل المحلولة":"السؤال "+s.problem):s.tab==="laws"?(s.lawCategory===null?"مجموعات القوانين":LAW_GROUPS[s.lawCategory].title):s.tab==="derivations"?"الاشتقاقات":s.tab==="symbols"?"الرموز والثوابت":s.tab==="summaries"?"الملخصات والتعاريف":s.tab==="focus"?"مسرح الستارة":"كلمات التشجيع";
 el("appPath").textContent=title;el("appBack").disabled=appHistory.length===0;
 document.querySelectorAll(".app-dock button").forEach(b=>b.classList.toggle("on",b.dataset.dock===s.tab||b.dataset.dock==="pages"&&s.tab==="pages"&&s.page===null||b.dataset.dock==="books"&&s.tab==="pages"&&s.page!==null))
 }
@@ -192,7 +203,18 @@ return show('<div class="eyebrow">الكتاب المدرسي • صفحة '+g.n
 '<div class="book-square-grid">'+pp.map(p=>'<button class="book-square" style="--bookcolor:'+e(g.color)+'" onclick="choose('+p.num+')" aria-label="السؤال '+p.num+' — '+e(p.title)+'"><span class="sq-num">'+p.num+'</span><span class="sq-title">'+e(p.title)+'</span><span class="sq-parts">'+(p.parts.length>1?p.parts.length+' أجزاء معًا':'مسألة واحدة')+'</span></button>').join('')+'</div>'+
 '<div class="guide-bar">تفتح المسألة كاملة: المعطيات والمطلوب والقوانين والتحويلات وخطوات الحل والتفسير.</div><div class="actions-row">'+btn('→ اختيار صفحة أخرى',"tab('pages')")+'</div>');
 }
-function laws(){show('<div class="narrow"><div class="eyebrow">القانون ومعنى استخدامه</div><h1 class="title">القوانين فقط</h1><p class="subtitle">هنا الصيغ الأساسية ومتى نستعمل كل واحدة. خطوات الاشتقاق موجودة في تبويب مستقل.</p></div><div class="lawgrid">'+FORMULAS.map((x,i)=>'<article class="lawcard"><div class="eyebrow">القانون '+(i+1)+'</div><h3>'+e(x[0])+'</h3>'+eq(x[1])+'<p>'+e(x[2])+'</p></article>').join('')+'</div>'+foot(btn('→ صفحات الكتاب',"tab('pages')"),btn('الاشتقاقات ←',"tab('derivations')",true)))}
+const LAW_GROUPS=[{"title":"قوانين القوى والجاذبية","subtitle":"قوة الجذب العام والقوة المركزية وعلاقتهما بحركة القمر","icon":"F","ids":[0,1,2]},{"title":"قوانين السرعة المدارية","subtitle":"العلاقة بين سرعة القمر وكتلة الجسم المركزي ونصف قطر المدار","icon":"v","ids":[3]},{"title":"قوانين الزمن الدوري والمدار","subtitle":"زمن الدورة ونصف قطر المدار والارتفاع والقطر","icon":"T","ids":[4,5,9,10]},{"title":"قوانين الكتل ومجال الجاذبية","subtitle":"حساب كتلة الشمس وشدة مجال الجاذبية ومقارنتها","icon":"g","ids":[6,7,8]},{"title":"قوانين إشارات GPS","subtitle":"مسافة انتقال الإشارة من سرعتها وزمن وصولها","icon":"d","ids":[11]}];
+function laws(){
+if(s.lawCategory===null){
+return show('<div class="eyebrow">المكتبة العلمية</div><h1 class="title">اختاري مجموعة القوانين</h1><p class="subtitle">تحت كل عنوان علمي مجموعة قوانين متصلة بالفكرة نفسها. افتحي المجموعة لتشاهدي قوانينها وشرح استخدام كل منها.</p>'+
+'<div class="law-family">'+LAW_GROUPS.map((g,i)=>'<button class="law-family-card" onclick="lawGroup('+i+')"><span class="symbol">'+e(g.icon)+'</span><span class="family-text"><strong>'+e(g.title)+'</strong><small>'+e(g.subtitle)+'</small></span><span class="count">'+g.ids.length+' قوانين</span></button>').join('')+'</div>');
+}
+const g=LAW_GROUPS[s.lawCategory];
+return show('<div class="law-family-detail"><div class="eyebrow">المجموعة '+(s.lawCategory+1)+' من '+LAW_GROUPS.length+'</div><h2>'+e(g.title)+'</h2><p class="family-intro">'+e(g.subtitle)+'</p>'+
+g.ids.map((i,index)=>{const f=FORMULAS[i];return '<article class="law-specific"><div class="law-sequence">القانون '+(index+1)+' من '+g.ids.length+'</div><h3>'+e(f[0])+'</h3>'+eq(f[1])+'<p class="meaning">'+e(f[2])+'</p></article>'}).join('')+
+'<div class="actions-row">'+btn('→ مجموعات القوانين',"tab('laws')")+btn('الاشتقاقات خطوة بخطوة ←',"tab('derivations')",true)+'</div></div>');
+}
+
 function step(x,i,reason,color){return '<div class="step" style="--c:'+(color||'#0b778b')+'"><span class="bubble">'+(i+1)+'</span><div><h4>'+e(x.title)+'</h4><p>'+e(x.body)+'</p>'+(x.formula?eq(x.formula):'')+(reason?'<div class="why"><b>لماذا فعلنا هذه الخطوة؟</b>'+e(reason)+'</div>':'')+'</div></div>'}
 function derivations(){if(s.law===null)return show('<div class="narrow"><div class="eyebrow">خطوات الاستنتاج</div><h1 class="title">الاشتقاقات</h1><p class="subtitle">اختاري فكرة واحدة؛ ستظهر خطوات القانون مع تفسير السبب وراء كل خطوة.</p></div><div class="grid">'+LAW_DATA.map((x,i)=>'<button class="choice" style="--c:#0b778b" onclick="derivation('+i+')"><strong>'+e(x.title)+'</strong><small>'+e(x.sub)+'</small></button>').join('')+'</div>');
 const l=LAW_DATA[s.law];show('<div class="narrow"><div class="back">'+btn('→ جميع الاشتقاقات','s.law=null;render()')+'<small>الاشتقاق '+(s.law+1)+' من '+LAW_DATA.length+'</small></div><h1 class="title">'+e(l.title)+'</h1><p class="subtitle">'+e(l.intro)+'</p><article class="paper"><h3>من الفكرة إلى القانون</h3>'+l.steps.map((v,i)=>step({title:v[0],body:v[1],formula:v[2]||''},i)).join('')+'</article><article class="paper"><h3>أين أستخدم القانون؟</h3><p class="para">'+e(l.use)+'</p><div class="warn"><b>تنبيه</b>'+e(l.alert)+'</div></article>'+foot(btn('→ فهرس الاشتقاقات','s.law=null;render()'),s.law<LAW_DATA.length-1?btn('الاشتقاق التالي ←','derivation('+(s.law+1)+')',true):btn('القوانين فقط ←',"tab('laws')",true))+'</div>')}
