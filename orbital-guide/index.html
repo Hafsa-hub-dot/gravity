@@ -67,6 +67,76 @@ body>.top,body>#app{display:none!important}
 .print-document .print-final{break-inside:avoid}
 }
 
+
+/* Calm student reader. Every problem gets its own spacious page. */
+:root{--calm:#087c91}
+.top{box-shadow:0 1px 0 #e8eff1}.brand{max-width:310px}
+.top .tab{border-radius:9px;padding:11px 13px}
+.reading-page{display:flex;flex-direction:column;min-height:0;height:100%;background:#fff}
+.reading-heading{flex:0 0 auto;border-bottom:1px solid #edf1f3;padding:14px clamp(18px,3.6vw,52px);display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:70px}
+.reading-heading h1{font:700 clamp(18px,1.9vw,26px)/1.4 "El Messiri";margin:0;color:#233c47}
+.reading-heading .quiet-meta{font:600 12px "El Messiri";color:#70818a;white-space:nowrap}
+.reader-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:clamp(28px,4.5vw,68px) clamp(18px,4vw,64px) 80px}
+.reader-width{width:100%;max-width:880px;margin:0 auto}
+.section-space{margin:70px 0 0}
+.section-space.first{margin-top:25px}
+.reader-overline{font:700 13px/1.7 "El Messiri";color:var(--c);margin:0 0 16px}
+.reader-h1{font:700 clamp(27px,3.5vw,45px)/1.36 "El Messiri";color:#1e3846;margin:0 0 24px;max-width:850px}
+.reader-h2{font:700 clamp(21px,2.4vw,29px)/1.4 "El Messiri";color:#25404c;margin:0 0 22px}
+.reader-p{font:400 clamp(27px,2.65vw,38px)/1.4 "Lateef";margin:0 0 16px}
+.reader-question{font:600 clamp(29px,3vw,43px)/1.36 "Markazi Text";white-space:pre-line;background:#fbfdfe;border:1px solid #e3eef0;border-right:5px solid var(--c);border-radius:14px;padding:clamp(22px,3.3vw,43px);margin:0}
+.reader-intro{font:400 clamp(27px,2.65vw,37px)/1.35 "Lateef";background:#f5fafb;padding:24px clamp(19px,2.7vw,32px);border-radius:13px;margin-top:20px}
+.reader-intro strong{color:#196980;font:700 14px "El Messiri";display:block;margin-bottom:12px}
+.reader-label{font:700 13px "El Messiri";color:var(--c);margin:0 0 12px}
+.reader-facts{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.reader-facts>div{border:1px solid #e1ebee;border-radius:14px;padding:25px;background:white;min-width:0}
+.reader-facts ul{margin:0;padding-right:24px;font:400 clamp(25px,2.4vw,35px)/1.3 "Lateef"}
+.reader-facts li{margin-bottom:10px}
+.reader-facts p{font:400 clamp(25px,2.4vw,34px)/1.3 "Lateef";margin:0 0 10px}
+.reader-extra{color:#b5263b;font-weight:700;margin-top:16px!important}
+.reader-outline{border-top:1px solid #e9eff1;margin:52px 0 0;padding-top:48px}
+.reader-step{display:grid;grid-template-columns:44px minmax(0,1fr);gap:18px;padding:29px 0;border-bottom:1px solid #e8f0f2}
+.reader-step:last-child{border-bottom:0}
+.reader-step-number{width:42px;height:42px;border-radius:12px;background:var(--c);color:white;display:grid;place-items:center;font:700 17px "El Messiri"}
+.reader-step h3{font:700 clamp(17px,1.85vw,23px) "El Messiri";margin:3px 0 12px;color:#213c48}
+.reader-step p{font:400 clamp(25px,2.45vw,35px)/1.35 "Lateef";margin:0}
+.reader-step .explain-why{color:#566b76;font:400 clamp(24px,2.15vw,30px)/1.29 "Lateef";margin-top:12px}
+.reader-step .explain-why strong{font:700 13px "El Messiri";color:var(--c);display:block;margin-bottom:5px}
+.reader-step .eq{display:block;margin:19px 0 3px;padding:16px 12px;font:700 clamp(18px,2.2vw,27px)/1.55 Georgia,"Cambria Math",serif;background:#fbfdfe;border-color:#dfeaed;border-radius:12px;overflow-wrap:anywhere}
+.reader-answer{padding:31px;background:#f6fbfc;border:1px solid #d1e6eb;border-right:6px solid var(--c);border-radius:14px;margin-top:15px}
+.reader-answer strong{display:block;font:700 15px "El Messiri";color:var(--c);margin-bottom:12px}
+.reader-answer p{font:700 clamp(22px,2.75vw,35px)/1.4 "El Messiri";color:#164c60;margin:0;overflow-wrap:anywhere}
+.reader-warning{font:400 clamp(24px,2.3vw,33px)/1.35 "Lateef";background:#fffaf9;border:1px solid #ead6d8;border-radius:13px;padding:23px 26px;margin-top:18px}
+.reader-warning strong{font:700 13px "El Messiri";color:#aa2f46;display:block;margin-bottom:10px}
+.reader-bottomnav{margin-top:80px;border-top:1px solid #e8eef0;padding-top:28px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+.reader-button{font:700 13px "El Messiri";background:white;border:1px solid #c8dde3;color:#236277;border-radius:10px;padding:12px 18px}
+.reader-button.filled{background:var(--c);border-color:var(--c);color:white}
+.reader-open-practice{border:1px solid #d7e6eb;border-radius:13px;margin-top:15px;background:#fff}
+.reader-open-practice>summary{cursor:pointer;padding:18px 22px;font:700 15px "El Messiri";color:var(--c);list-style:none;display:flex;align-items:center;justify-content:space-between}
+.reader-open-practice>summary::-webkit-details-marker{display:none}
+.reader-open-practice>summary:after{content:"＋";font:700 19px "El Messiri"}
+.reader-open-practice[open]>summary:after{content:"−"}
+.reader-practice-body{padding:5px 22px 22px}
+.reader-practice-body textarea{font:500 clamp(22px,2.1vw,30px)/1.4 "Markazi Text";width:100%;min-height:160px;resize:vertical;border:1px solid #cadde3;border-radius:11px;padding:12px;direction:rtl}
+.reader-practice-body .handwriting{height:300px}
+.reader-practice-body .print-hint{margin:8px 0}
+.reader-collection{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:25px 0 0}
+.reader-collection button{text-align:right;min-height:110px;border:1px solid #e0ebee;border-radius:15px;background:#fff;padding:23px;display:flex;flex-direction:column;justify-content:center;gap:9px}
+.reader-collection button:hover{background:#f7fbfc;border-color:#96c4d0}
+.reader-collection button strong{font:700 clamp(16px,1.7vw,22px)/1.45 "El Messiri";color:#225064}
+.reader-collection button small{font:600 12px/1.5 "El Messiri";color:#6d7f88}
+.reader-cover{padding:clamp(18px,3vw,42px) 0 35px}
+.reader-cover h2{font:700 clamp(30px,4vw,52px)/1.35 "El Messiri";color:#205666;margin:20px 0 19px}
+.reader-cover p{font:500 clamp(28px,2.9vw,42px)/1.25 "Markazi Text";margin:0;max-width:760px}
+.reader-credit{border:1px solid #ebdde0;border-right:5px solid #853449;background:#fffafd;border-radius:12px;padding:19px 24px;font:700 clamp(18px,1.7vw,23px) "El Messiri";color:#853449;margin:31px 0 20px;display:inline-block}
+.reader-credit small{display:block;font:600 12px/1.9 "El Messiri";color:#6b7881}
+.reader-break{width:95px;height:4px;background:var(--c);border-radius:12px;margin:22px 0}
+.reader-law-note{font:400 clamp(25px,2.5vw,36px)/1.35 "Lateef";margin-top:24px;color:#28424e}
+.reader-law-note strong{display:block;font:700 13px "El Messiri";margin-bottom:9px;color:var(--c)}
+.reader-go-law{margin-top:18px;display:inline-block}
+@media(max-width:800px){.reader-scroll{padding:28px 17px 55px}.reader-facts{grid-template-columns:1fr;gap:11px}.reader-facts>div{padding:18px}.reader-step{grid-template-columns:34px minmax(0,1fr);gap:13px;padding:23px 0}.reader-step-number{width:34px;height:34px;font-size:14px}.reader-collection{grid-template-columns:1fr;gap:11px}.reader-collection button{min-height:85px;padding:17px}.section-space{margin-top:47px}.reader-outline{padding-top:33px;margin-top:38px}.reader-question{font-size:31px;padding:19px}.reader-answer{padding:23px}.reader-warning{padding:18px}.reader-bottomnav{margin-top:45px}.reader-h1{font-size:27px}.reader-h2{font-size:21px}}
+@media(max-width:500px){.top{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand print" "tabs tabs";align-items:center;gap:5px;padding:7px 9px}.top .brand{grid-area:brand;width:auto;justify-content:flex-start}.top .tabs{grid-area:tabs;width:100%;max-width:100%;justify-content:flex-start;overflow-x:auto}.top .print-menu-wrap{grid-area:print}.top .tab{min-height:40px;padding:8px 10px}.reader-question{font-size:28px}.reader-step .eq{font-size:17px}.reader-facts p{font-size:26px}.reader-button{padding:11px 12px;font-size:11px}.reader-credit{display:block}.reader-heading{padding:10px 15px;min-height:57px}}
+@media print{.reading-page{display:none!important}}
 </style></head><body>
 <header class="top"><div class="brand"><div class="logo">ف</div><div><b>دليل الحركة المدارية</b><small>مدرسة العب الثانوية للبنات • قسم الفيزياء • 2026 - 2027</small></div></div>
 <nav class="tabs" aria-label="الأقسام الرئيسية" id="topTabs">
@@ -121,7 +191,7 @@ function activateTop(){document.querySelectorAll(".tab").forEach(b=>{const a=b.d
 function put(html){byId("app").innerHTML=html;activateTop();scrollMain();}
 function openTab(tab){
 if(!["home","laws","exercises","symbols","summary"].includes(tab))return;
-state.tab=tab;if(tab==="exercises"){state.problem=null;state.problemPane="question";state.step=0;}
+state.tab=tab;if(tab==="laws")lawsIndexOpen=true;if(tab==="exercises"){state.problem=null;state.problemPane="question";state.step=0;}
 render();
 }
 function openGroup(i){if(i<0||i>=GROUPS.length)return;state.tab="exercises";state.group=i;state.problem=null;state.problemPane="question";render();}
@@ -132,9 +202,9 @@ function goCalc(n){const l=EXERCISES[state.problem];if(!l)return;state.step=Math
 function selectLaw(i){if(i<0||i>=LAWS.length)return;state.tab="laws";state.law=i;render();}
 function render(){
 document.documentElement.style.setProperty("--c",state.tab==="exercises"&&state.problem!==null?EXERCISES[state.problem].color:state.tab==="laws"?"#087c91":GROUPS[state.group].color);
-if(state.tab==="home")renderHome();
-if(state.tab==="exercises")renderExercises();
-if(state.tab==="laws")renderLaws();
+if(state.tab==="home")renderHomeComfort();
+if(state.tab==="exercises")renderExercisesComfort();
+if(state.tab==="laws")renderLawsComfort();
 if(state.tab==="symbols")renderSymbols();
 if(state.tab==="summary")renderSummary();
 }
@@ -343,6 +413,105 @@ if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>requestAn
 else requestAnimationFrame(doPrint);
 }
 window.addEventListener("beforeprint",()=>{if(byId("printRoot")&&!byId("printRoot").innerHTML){try{renderPrint("all");}catch(e){}}});
+
+
+/* ===== Calm, one-problem-per-page reading experience ===== */
+let lawsIndexOpen=true;
+function colorUI(c){document.documentElement.style.setProperty("--c",c||"#087c91");}
+function paintComfort(heading,meta,body){
+ byId("app").innerHTML='<section class="reading-page"><div class="reading-heading"><h1>'+heading+'</h1><span class="quiet-meta">'+E(meta||"")+'</span></div><div class="reader-scroll" id="readerScroll"><div class="reader-width">'+body+'</div></div></section>';
+ activateTop();
+ const sc=byId("readerScroll");if(sc)sc.scrollTop=0;
+}
+function comfortBookCards(){
+ return GROUPS.map((g,i)=>'<button style="--c:'+g.color+'" onclick="openGroup('+i+')"><strong>صفحة '+g.page+' — '+E(g.name)+'</strong><small>'+E(g.label)+' • اضغطي لاختيار مسألة</small></button>').join("");
+}
+function renderHomeComfort(){
+ colorUI("#087c91");
+ const body='<div class="reader-cover"><div class="reader-overline">مرحبًا بكنّ • دليل المراجعة الذاتية في الفيزياء</div>'+
+ '<h2>كل مسألة تستحق أن نفهمها بهدوء.</h2>'+
+ '<p>دليل واضح للحركة المدارية: نبدأ بالفكرة، ثم نكتشف القانون، ثم نتدرج في الحل خطوة خطوة حتى نفهم الإجابة.</p>'+
+ '<div class="reader-credit">إعداد وتصميم: الأستاذة حفصة طيبي<small>مدرسة العب الثانوية للبنات • قسم الفيزياء • 2026/2027</small></div>'+
+ '<div class="reader-break"></div><h3 class="reader-h2" style="margin:35px 0 7px">اختاري صفحة الكتاب</h3>'+
+ '<div class="reader-collection">'+comfortBookCards()+'</div>'+
+ '<div class="section-space"><h3 class="reader-h2">أو ابدئي بفهم القوانين</h3><p class="reader-p">ستجدين الاشتقاقات والمفاهيم والرموز في أقسام مستقلة، دون ازدحام النصوص على الشاشة.</p>'+
+ '<button class="reader-button filled" onclick="openTab(\'laws\')">فتح القوانين واشتقاقها ←</button></div>'+
+ '<p class="fine" style="margin-top:45px">الموقع مناسب للهاتف والتابلت والكمبيوتر. يمكن حفظ الحل المكتوب محليًا، وطباعة المسألة أو مجموعة مسائل أو الدليل كاملًا.</p></div>';
+ paintComfort('دليل الحركة المدارية','أهلًا بكنّ',body);
+}
+function renderExercisesComfort(){
+ const current=state.problem;
+ if(current===null){
+  const g=GROUPS[state.group];colorUI(g.color);
+  const cards=EXERCISES.slice(g.start,g.end+1).map((x,j)=>'<button style="--c:'+x.color+'" onclick="openProblem('+(g.start+j)+')"><strong>السؤال '+E(x.id)+' — '+E(x.title)+'</strong><small>فتح المسألة مع الحل والشرح الكامل</small></button>').join("");
+  const body='<div class="reader-overline">الكتاب المدرسي • الصف الثاني عشر</div><h2 class="reader-h1">مسائل صفحة '+g.page+'</h2>'+
+  '<p class="reader-p">'+E(g.name)+'.</p><p class="reader-p">اضغطي على السؤال الذي تريدينه. ستُفتح <strong>مسألة واحدة فقط</strong> في صفحة واسعة بها جميع خطوات الحل.</p>'+
+  '<div class="reader-collection">'+cards+'</div>'+
+  '<div class="reader-bottomnav"><button class="reader-button" onclick="openTab(\'home\')">→ الرئيسية</button><button class="reader-button" onclick="openTab(\'laws\')">مكتبة القوانين ←</button></div>';
+  paintComfort('صفحة الكتاب '+g.page,g.label,body);
+  return;
+ }
+ const l=EXERCISES[current];colorUI(l.color);
+ const given='<div><h3 class="reader-label">المعطيات الموجودة</h3>'+list(l.given)+
+ (l.added.length?'<h3 class="reader-label reader-extra">قيم أو افتراضات أُضيفت للتوضيح</h3>'+list(l.added,'red'):'')+'</div>';
+ const wanted='<div><h3 class="reader-label">ما المطلوب حسابه أو تفسيره؟</h3><p>'+E(l.wanted)+'</p><h3 class="reader-label" style="margin-top:20px">قبل البدء</h3><p>نحدد القانون المناسب، ثم نتأكد من الوحدات، وبعدها نعوّض بالأرقام.</p></div>';
+ const law=l.formulas.map((f,j)=>'<div class="reader-step"><span class="reader-step-number">'+(j+1)+'</span><div><h3>نفهم العلاقة '+(j+1)+'</h3><p>'+E(f.guide)+'</p>'+eq(f.formula)+'</div></div>').join("");
+ const calculation=l.steps.map((x,j)=>'<div class="reader-step"><span class="reader-step-number">'+(j+1)+'</span><div><h3>'+E(x.title)+'</h3>'+
+ (/^[A-Za-z0-9√∛π(]/.test(x.body.trim())?eq(x.body):'<p>'+E(x.body)+'</p>')+
+ '<div class="explain-why"><strong>لماذا قمنا بهذه الخطوة؟</strong>'+E(x.guide)+'</div></div></div>').join("");
+ const practice='<details class="reader-open-practice" id="optionalPractice"><summary>✎ مساحة اختيارية لكتابة حلي بنفسي</summary><div class="reader-practice-body"><p class="reader-p">اكتبي حلّك هنا باستخدام لوحة المفاتيح، أو ارسمي بالقلم الإلكتروني أو الإصبع. لا تظهر هذه المساحة إلا عند فتحها.</p>'+
+ '<textarea id="typedAnswer" placeholder="المعطيات، القانون، التحويلات، التعويض…">'+E(loadTyped(current))+'</textarea>'+
+ '<div class="print-hint">تُحفظ الكتابة في متصفح الجهاز الذي تستخدمينه.</div>'+
+ '<div class="boardtools"><button id="toolPen" onclick="selectInkTool(\'pen\')">✎ قلم</button><button id="toolEraser" onclick="selectInkTool(\'eraser\')">⌫ ممحاة</button><button onclick="undoInk()">↶ تراجع</button><button onclick="clearInk()">مسح الكتابة</button></div>'+
+ '<div class="handwriting" id="boardArea"><canvas id="inkCanvas" aria-label="مساحة الكتابة اليدوية للمسألة"></canvas></div></div></details>';
+ const prev=current>0?'<button class="reader-button" onclick="openProblem('+(current-1)+')">→ المسألة السابقة</button>':'<button class="reader-button" onclick="openGroup('+state.group+')">→ قائمة الصفحة</button>';
+ const next=current<EXERCISES.length-1?'<button class="reader-button filled" onclick="openProblem('+(current+1)+')">المسألة التالية ←</button>':'<button class="reader-button filled" onclick="openTab(\'home\')">الرئيسية ←</button>';
+ const body='<div class="reader-overline">الكتاب المدرسي • صفحة '+l.page+' • السؤال '+E(l.id)+'</div>'+
+ '<h2 class="reader-h1">'+E(l.title)+'</h2>'+
+ '<section class="section-space first"><h3 class="reader-label">نص السؤال</h3><div class="reader-question">'+E(l.question)+'</div></section>'+
+ '<section class="section-space"><h3 class="reader-h2">1. ماذا يريد السؤال أن نعرف؟</h3><div class="reader-intro"><strong>تخيّلي الفكرة بهذه الكلمات البسيطة</strong>'+E(l.hook)+'</div></section>'+
+ '<section class="section-space"><h3 class="reader-h2">2. نرتّب المعطيات والمطلوب</h3><div class="reader-facts">'+given+wanted+'</div></section>'+
+ '<section class="section-space"><h3 class="reader-h2">3. يمكنكِ المحاولة قبل رؤية الحل</h3>'+practice+'</section>'+
+ '<section class="section-space reader-outline"><h3 class="reader-h2">4. من أين جاء القانون؟</h3>'+
+ '<p class="reader-p">نبدأ بالفكرة الفيزيائية، ونصل إلى القانون تدريجيًا، دون القفز إلى الصيغة النهائية.</p>'+law+'</section>'+
+ '<section class="section-space reader-outline"><h3 class="reader-h2">5. الحل خطوة بخطوة</h3>'+
+ '<p class="reader-p">سنتابع عملية الحساب خطوة واحدة في كل فقرة، مع شرح <strong>لماذا</strong> نحتاجها.</p>'+calculation+'</section>'+
+ '<section class="section-space reader-outline"><h3 class="reader-h2">6. النتيجة النهائية</h3><div class="reader-answer"><strong>الإجابة</strong><p>'+E(l.result)+'</p></div>'+
+ '<h3 class="reader-h2" style="margin-top:30px">ماذا تعني هذه النتيجة؟</h3><p class="reader-p">'+E(l.meaning)+'</p>'+
+ '<div class="reader-warning"><strong>انتبهي إلى هذا الخطأ الشائع</strong>'+E(l.warning)+'</div></section>'+
+ '<div class="reader-bottomnav">'+prev+'<button class="reader-button" onclick="openGroup('+state.group+')">جميع مسائل صفحة '+l.page+'</button>'+next+'</div>';
+ paintComfort('السؤال '+E(l.id)+' | '+E(l.title),'ص '+l.page,body);
+ const details=byId('optionalPractice');
+ if(details)details.addEventListener("toggle",()=>{if(details.open)requestAnimationFrame(initInkCanvas)});
+ const textarea=byId('typedAnswer');
+ if(textarea)textarea.addEventListener("input",()=>saveTyped(textarea.value));
+}
+function renderLawsComfort(){
+ colorUI("#087c91");
+ if(lawsIndexOpen){
+  const cards=LAWS.map((l,i)=>'<button onclick="openComfortLaw('+i+')"><strong>'+(i+1)+'. '+E(l.title)+'</strong><small>'+E(l.sub)+'</small></button>').join("");
+  const body='<div class="reader-overline">مكتبة مستقلة للمفاهيم والاشتقاقات</div>'+
+  '<h2 class="reader-h1">القوانين وشرحها من البداية</h2>'+
+  '<p class="reader-p">اختاري قانونًا واحدًا لقراءة معناه واستنتاجه على مهل. لن تظهر جميع الاشتقاقات تحت بعضها.</p>'+
+  '<div class="reader-collection">'+cards+'</div>'+
+  '<div class="reader-bottomnav"><button class="reader-button" onclick="openTab(\'home\')">→ الرئيسية</button><button class="reader-button" onclick="openTab(\'exercises\')">المسائل المحلولة ←</button></div>';
+  paintComfort('القوانين واشتقاقها','12 قانونًا وفكرة علمية',body);return;
+ }
+ const l=LAWS[state.law];
+ const rows=l.steps.map((x,i)=>'<div class="reader-step"><span class="reader-step-number">'+(i+1)+'</span><div><h3>'+E(x[0])+'</h3><p>'+E(x[1])+'</p>'+(x[2]?eq(x[2]):'')+'</div></div>').join("");
+ const body='<div class="reader-overline">القانون '+(state.law+1)+' من '+LAWS.length+'</div>'+
+ '<h2 class="reader-h1">'+E(l.title)+'</h2><p class="reader-p">'+E(l.sub)+'</p>'+
+ '<div class="reader-intro"><strong>ما معنى هذه الفكرة؟</strong>'+E(l.intro)+'</div>'+
+ '<section class="section-space reader-outline"><h3 class="reader-h2">كيف نستنتج القانون؟</h3>'+rows+'</section>'+
+ '<section class="section-space reader-outline"><h3 class="reader-h2">متى نستخدمه؟</h3><p class="reader-p">'+E(l.use)+'</p>'+
+ '<div class="reader-warning"><strong>تنبيه مهم</strong>'+E(l.alert)+'</div></section>'+
+ '<div class="reader-bottomnav"><button class="reader-button" onclick="openComfortLawIndex()">→ فهرس القوانين</button>'+
+ (state.law<LAWS.length-1?'<button class="reader-button filled" onclick="openComfortLaw('+(state.law+1)+')">القانون التالي ←</button>':
+ '<button class="reader-button filled" onclick="openTab(\'exercises\')">المسائل المحلولة ←</button>')+'</div>';
+ paintComfort(l.title,'القانون '+(state.law+1),body);
+}
+function openComfortLaw(i){if(i<0||i>=LAWS.length)return;lawsIndexOpen=false;state.law=i;state.tab="laws";render();}
+function openComfortLawIndex(){lawsIndexOpen=true;state.tab="laws";render();}
 
 openTab("home");
 </script></body></html>
