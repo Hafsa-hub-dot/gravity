@@ -87,6 +87,15 @@ html,body{width:100%;height:100%;height:100dvh;overflow:hidden;background:#eef4f
 .m-controls{display:flex;gap:8px;flex-wrap:wrap;margin:17px 0 0}.m-controls button{padding:10px 14px;border:1px solid #bbd7dc;border-radius:10px;background:white;color:#245f75;font:700 12px "El Messiri"}.m-controls button.primary{background:#781e3b;border-color:#781e3b;color:#fff}
 @media(max-width:500px){.m-stage{height:275px}.m-digits{gap:5px}.m-digits span{width:38px;height:54px;font-size:25px}.m-colors{height:205px}.m-shapes span{width:52px;height:52px;font-size:39px}}
 @media(prefers-reduced-motion:reduce){.m-curtain{transition:none}}
+
+.word-board{border:1px solid #e9d9df;border-top:6px solid #781e3b;background:linear-gradient(145deg,#fff,#fdf5f7);border-radius:20px;padding:clamp(24px,3.6vw,42px);margin:22px 0}
+.word-board .sentence{font:500 clamp(31px,3.5vw,47px)/1.65 "Markazi Text";margin:9px 0;min-height:80px}
+.word-board .word{font:700 clamp(17px,2vw,26px) "El Messiri";border:1px solid #a7d2d5;background:#e8f6f6;color:#126b78;padding:9px 12px;border-radius:12px;display:inline-block;margin:3px 4px}
+.word-board .word.maroon{border-color:#e7c8d0;background:#faedf1;color:#781e3b}
+.word-choices{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.word-choices button{padding:10px 15px;border:1px solid #ccdde0;background:white;border-radius:99px;color:#2b6575;font:700 13px "El Messiri"}.word-choices button.current{background:#087d87;border-color:#087d87;color:white}
+.breathing-circle{width:84px;height:84px;border-radius:50%;margin:12px auto 26px;background:#d9f1ef;animation:breathingAnim 6.5s ease-in-out infinite}
+@keyframes breathingAnim{50%{transform:scale(1.2);opacity:.62}}
+@media(prefers-reduced-motion:reduce){.breathing-circle{animation:none}}
 </style></head><body>
 <div class="app-shell">
 <header class="app-header"><div class="app-left"><div class="qatari-mark" aria-hidden="true">✦</div><div><b>مداري | تعلّمي الفيزياء</b><small>إعداد الأستاذة حفصة طيبي • 2026 - 2027</small></div></div>
@@ -207,9 +216,28 @@ function memoryAnswer(i){if(memory.phase!=="question")return;memory.chosen=i;mem
 function retryMemory(){clearTimers();memory.phase="ready";memory.chosen=null;focus()}
 function nextMemory(){clearTimers();memory.index=(memory.index+1)%MEMORY_ROUNDS.length;memory.phase="ready";memory.chosen=null;focus()}
 
-function rest(){show('<div class="narrow"><div class="eyebrow">استراحة قصيرة دون ضغط</div><h1 class="title">استراحة هادئة</h1><p class="subtitle">يمكنكِ البقاء قليلًا هنا. تتغير الرسائل تلقائيًا كل 9 ثوانٍ، أو يمكنكِ تغييرها بنفسك.</p></div><div class="focusbox"><div class="circle"></div><h2>رسالة تشجيعية</h2><p id="restMsg">'+e(MESSAGES[s.rest])+'</p><div class="fine">'+(s.paused?'تم إيقاف التغيير التلقائي':'الرسائل تتغير بهدوء')+'</div><div class="controls"><button class="pbtn" onclick="nextRest()">رسالة أخرى</button><button class="pbtn primary" onclick="toggleRest()">'+(s.paused?'استئناف الرسائل':'إيقاف التغيير')+'</button><button class="pbtn" onclick="tab(\'pages\')">العودة إلى الكتاب</button></div></div>');if(!s.paused)restTimer=setInterval(()=>{s.rest=(s.rest+1)%MESSAGES.length;if(el('restMsg'))el('restMsg').textContent=MESSAGES[s.rest]},9000)}
-function nextRest(){s.rest=(s.rest+1)%MESSAGES.length;el('restMsg').textContent=MESSAGES[s.rest]}
-function toggleRest(){clearTimers();s.paused=!s.paused;rest()}
+const POSITIVE_WORDS={adj:["قادرة","حريصة","مصممة","مستمرة"],noun:["الفهم","التعلّم","التقدم","المحاولة"],start:["كل خطوة","كل محاولة","كل مراجعة","كل فكرة"],end:["تقربني من الفهم","تزيد معرفتي","تساعدني على التقدم","تعلمني شيئًا جديدًا"]};
+const EXTRA_QUOTES=["اختاري مسألة واحدة فقط ثم انتقلي للتالية.","الرجوع إلى الشرح جزء طبيعي من التعلم.","فهم المطلوب أهم من سرعة التعويض.","يمكنكِ المحاولة مرة أخرى بالطريقة التي تناسبكِ.","لا ضرورة للاستعجال؛ خطوة واحدة تكفي للبداية.","كلما فهمتِ السبب وراء القانون أصبح تطبيقه أسهل."];
+const positive={template:0,adj:0,noun:0,start:0,end:0,selected:"adj",quote:0};
+function positiveSentence(){
+if(positive.template===0)return 'أنا <button class="word maroon" onclick="changePositive(\'adj\')">'+e(POSITIVE_WORDS.adj[positive.adj])+'</button> على <button class="word" onclick="changePositive(\'noun\')">'+e(POSITIVE_WORDS.noun[positive.noun])+'</button>.';
+return '<button class="word maroon" onclick="changePositive(\'start\')">'+e(POSITIVE_WORDS.start[positive.start])+'</button> <button class="word" onclick="changePositive(\'end\')">'+e(POSITIVE_WORDS.end[positive.end])+'</button>.';
+}
+function rest(){
+const slots=positive.template===0?["adj","noun"]:["start","end"];const active=slots.includes(positive.selected)?positive.selected:slots[0];
+show('<div class="eyebrow">ركن الكلمات التشجيعية</div><h1 class="title">اصنعي عبارتكِ بنفسكِ</h1><p class="subtitle">اضغطي على أي كلمة ملوّنة لتتغير مباشرة، أو اختاري كلمتكِ من البدائل تحتها.</p>'+
+'<div class="word-board"><div class="eyebrow">عبارتكِ الآن</div><div class="sentence">'+positiveSentence()+'</div><p class="fine">اضغطي على الكلمة الملوّنة مرة أخرى لتغييرها.</p></div>'+
+'<article class="paper"><h3>اختاري الكلمات التي تناسبكِ</h3><div class="m-controls">'+slots.map(x=>'<button class="'+(x===active?"primary":"")+'" onclick="positiveSlot(\''+x+'\')">'+(x==="adj"?"الكلمة الأولى":x==="noun"?"الكلمة الثانية":x==="start"?"بداية الجملة":"نهاية الجملة")+'</button>').join('')+'</div>'+
+'<div class="word-choices">'+POSITIVE_WORDS[active].map((x,i)=>'<button class="'+(positive[active]===i?"current":"")+'" onclick="positiveChoose(\''+active+'\','+i+')">'+e(x)+'</button>').join('')+'</div></article>'+
+'<div class="m-controls"><button class="primary" onclick="positiveSwitch()">تغيير شكل العبارة ↻</button><button onclick="positiveNextQuote()">رسالة أخرى ✦</button></div>'+
+'<article class="paper" style="margin-top:24px;text-align:center"><div class="breathing-circle" aria-hidden="true"></div><p class="subtitle" id="positiveQuote">'+e(EXTRA_QUOTES[positive.quote])+'</p><p class="fine">هذه مساحة اختيارية للاستراحة. لا درجات ولا مؤقتات.</p></article>');
+}
+function changePositive(key){positive[key]=(positive[key]+1)%POSITIVE_WORDS[key].length;positive.selected=key;rest()}
+function positiveSlot(key){positive.selected=key;rest()}
+function positiveChoose(key,index){positive[key]=index;positive.selected=key;rest()}
+function positiveSwitch(){positive.template=(positive.template+1)%2;positive.selected=positive.template===0?"adj":"start";rest()}
+function positiveNextQuote(){positive.quote=(positive.quote+1)%EXTRA_QUOTES.length;const v=el("positiveQuote");if(v)v.textContent=EXTRA_QUOTES[positive.quote]}
+
 function togglePrint(force){const menu=el('printMenu'),open=typeof force==='boolean'?force:menu.hidden;menu.hidden=!open;el('printButton').setAttribute('aria-expanded',String(open))}
 document.addEventListener('pointerdown',event=>{if(!el('printer').contains(event.target))togglePrint(false)});
 document.addEventListener('keydown',event=>{if(event.key==='Escape')togglePrint(false)});
