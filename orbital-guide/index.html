@@ -96,6 +96,18 @@ html,body{width:100%;height:100%;height:100dvh;overflow:hidden;background:#eef4f
 .breathing-circle{width:84px;height:84px;border-radius:50%;margin:12px auto 26px;background:#d9f1ef;animation:breathingAnim 6.5s ease-in-out infinite}
 @keyframes breathingAnim{50%{transform:scale(1.2);opacity:.62}}
 @media(prefers-reduced-motion:reduce){.breathing-circle{animation:none}}
+
+.book-square-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin:23px 0 35px}
+.book-square{aspect-ratio:1/1;min-width:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:20px 13px;border-radius:18px;border:1px solid #d9e6e9;border-top:6px solid var(--bookcolor,#781e3b);background:#fff;box-shadow:0 5px 20px #203b4408}
+.book-square:hover,.book-square:focus-visible{background:#f7fcfb;border-color:#85c3ca;transform:translateY(-2px)}
+.book-square .sq-num{font:700 clamp(36px,4vw,53px)/1 "El Messiri";color:var(--bookcolor,#781e3b)}
+.book-square .sq-title{font:700 clamp(13px,1.4vw,17px)/1.43 "El Messiri";color:#2a4857;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.book-square .sq-parts{font:700 11px/1.5 "El Messiri";color:#71828b;background:#f2f7f8;border-radius:99px;padding:6px 10px}
+.book-picker-top{margin:7px 0 27px;padding:22px;border-right:5px solid #781e3b;background:#fff8fa;border-radius:13px}
+.book-picker-top h2{font:700 clamp(22px,2.8vw,34px) "El Messiri";margin:0 0 10px;color:#781e3b}
+.book-picker-top p{font:500 clamp(26px,2.7vw,37px)/1.2 "Markazi Text";margin:0}
+@media(max-width:740px){.book-square-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.book-square{padding:13px 9px}.book-square .sq-num{font-size:37px}.book-square .sq-title{font-size:13px}}
+@media(max-width:370px){.book-square-grid{gap:8px}.book-square .sq-title{font-size:12px}.book-square .sq-parts{font-size:10px}}
 </style></head><body>
 <div class="app-shell">
 <header class="app-header"><div class="app-left"><div class="qatari-mark" aria-hidden="true">✦</div><div><b>مداري | تعلّمي الفيزياء</b><small>إعداد الأستاذة حفصة طيبي • 2026 - 2027</small></div></div>
@@ -122,7 +134,7 @@ const DEFS=[["القوة المركزية","القوة المحصلة التي �
 const SYMBOLS=[["G","ثابت الجذب العام","6.67 × 10⁻¹¹ N·m²/kg²"],["M","كتلة الجسم المركزي","kg"],["m","كتلة القمر أو الكوكب","kg"],["r","نصف قطر المدار من المركز","m"],["R","نصف قطر الأرض أو الجسم المركزي","m"],["h","الارتفاع فوق السطح","m"],["D","قطر المدار","m"],["v","السرعة المدارية","m/s"],["T","الزمن الدوري","s"],["g","شدة مجال الجاذبية","N/kg أو m/s²"],["c","سرعة الضوء / الإشارة اللاسلكية","3 × 10⁸ m/s"],["π","ثابت الدائرة","≈ 3.1416"]];
 const FLASH=[["نصف قطر المدار","r = R + h","نضيف نصف قطر الأرض إلى الارتفاع."],["الجاذبية والقوة المركزية","F_g = F_c","الجاذبية هي القوة المركزية في المدار الدائري."],["السرعة المدارية","v = √(GM/r)","المدار الدائري الأدنى حول الجسم نفسه أسرع."],["الزمن الدوري","T = 2πr/v","المسافة في الدورة هي محيط الدائرة."],["التحويل إلى المتر","1 km = 1000 m","نضرب الكيلومترات في 1000."],["التحويل إلى الثواني","1 h = 3600 s","نضرب عدد الساعات في 3600."],["كتلة الشمس","M = 4π²r³/(GT²)","تختصر كتلة الكوكب في الاشتقاق."],["المحطة الدولية","سقوط حر مداري","انعدام الوزن الظاهري لا يعني انعدام الجاذبية."],["سرعة الإشارة","d = ct","مسافة الإشارة ليست دائمًا الارتفاع."],["حلقات زحل","r = D/2","لا نستخدم القطر مكان نصف القطر."],["نهاية الحساب","عدد + وحدة","تحققي من الوحدة ومعنى الناتج."],["تحديد المطلوب","ماذا يريد السؤال؟","ابدئي من المطلوب قبل اختيار القانون."]];
 const MESSAGES=["يمكنكِ فهم مسألة واحدة في كل مرة.","لا ضرورة للعجلة؛ افهمي السبب أولًا.","الرجوع إلى الشرح جزء طبيعي من التعلم.","تحويل الوحدات خطوة مهمة في أي حل.","يمكنكِ العودة إلى القانون كلما احتجتِ.","كل خطوة صغيرة توضح لكِ الخطوة التالية.","ليست المسألة سباقًا؛ خذي وقتكِ.","ابدئي بتحديد المطلوب فقط.","يمكنكِ إكمال المراجعة من حيث توقفتِ.","المحاولة الأولى ليست مطالبة بالكمال.","كلما اتضحت الفكرة، أصبح التعويض أسهل.","لديكِ حرية التوقف ثم العودة متى شئتِ."];
-const s={tab:"pages",page:null,problem:null,law:null,flash:0,flashShown:false,flashSec:12,rest:0,paused:false};
+const s={tab:"pages",page:null,problem:null,law:null,bookPicker:false,lawCategory:null,flash:0,flashShown:false,flashSec:12,rest:0,paused:false};
 let timer=null,restTimer=null;
 function el(x){return document.getElementById(x)}
 function e(x){return String(x??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;")}
@@ -133,39 +145,52 @@ function problem(n){return PROBLEMS.find(x=>x.num===n)}
 function clearTimers(){if(timer){clearInterval(timer);timer=null}if(restTimer){clearInterval(restTimer);restTimer=null}}
 const appHistory=[];
 function appBack(){clearTimers();if(appHistory.length){const prev=appHistory.pop();Object.assign(s,prev);render()}else appHome()}
-function appHome(){clearTimers();appHistory.length=0;s.tab="pages";s.page=null;s.problem=null;s.law=null;render()}
-function pushNav(){appHistory.push({tab:s.tab,page:s.page,problem:s.problem,law:s.law});if(appHistory.length>40)appHistory.shift()}
+function appHome(){clearTimers();appHistory.length=0;s.tab="pages";s.page=null;s.problem=null;s.law=null;s.bookPicker=false;s.lawCategory=null;render()}
+function pushNav(){appHistory.push({tab:s.tab,page:s.page,problem:s.problem,law:s.law,bookPicker:s.bookPicker,lawCategory:s.lawCategory});if(appHistory.length>40)appHistory.shift()}
 function syncApp(){
-const title=s.tab==="pages"?(s.page===null?"الرئيسية":"مسائل صفحة "+s.page):s.tab==="solved"?(s.problem===null?"المسائل المحلولة":"السؤال "+s.problem):s.tab==="laws"?"القوانين فقط":s.tab==="derivations"?"الاشتقاقات":s.tab==="symbols"?"الرموز والثوابت":s.tab==="summaries"?"الملخصات والتعاريف":s.tab==="focus"?"مسرح الستارة":"كلمات التشجيع";
+const title=s.tab==="pages"?(s.page===null?(s.bookPicker?"صفحات الكتاب":"الرئيسية"):"مسائل صفحة "+s.page):s.tab==="solved"?(s.problem===null?"المسائل المحلولة":"السؤال "+s.problem):s.tab==="laws"?"القوانين فقط":s.tab==="derivations"?"الاشتقاقات":s.tab==="symbols"?"الرموز والثوابت":s.tab==="summaries"?"الملخصات والتعاريف":s.tab==="focus"?"مسرح الستارة":"كلمات التشجيع";
 el("appPath").textContent=title;el("appBack").disabled=appHistory.length===0;
 document.querySelectorAll(".app-dock button").forEach(b=>b.classList.toggle("on",b.dataset.dock===s.tab||b.dataset.dock==="pages"&&s.tab==="pages"&&s.page===null||b.dataset.dock==="books"&&s.tab==="pages"&&s.page!==null))
 }
 function show(html){el("view").innerHTML='<div class="wrap">'+html+'</div>';el("view").scrollTop=0;syncApp()}
 function appCard(icon,title,description,action,color){return '<button class="app-menu-item '+(color||"")+'" onclick="'+action+'"><span class="app-menu-icon">'+icon+'</span><span class="app-menu-main"><b>'+e(title)+'</b><small>'+e(description)+'</small></span><span class="app-menu-arrow">‹</span></button>'}
-function tab(t){if(!['pages','laws','derivations','symbols','summaries','solved','focus','rest'].includes(t))return;pushNav();clearTimers();s.tab=t;if(t==='pages')s.page=null;if(t==='solved')s.problem=null;if(t==='derivations')s.law=null;render()}
-function page(n){if(!gpage(n))return;pushNav();clearTimers();s.page=n;s.problem=null;s.tab='pages';render()}
-function choose(n){if(!problem(n))return;pushNav();clearTimers();s.problem=n;s.page=problem(n).page;s.tab='solved';render()}
-function derivation(i){if(i<0||i>=LAW_DATA.length)return;pushNav();clearTimers();s.law=i;s.tab='derivations';render()}
+function tab(t){
+if(!['pages','laws','derivations','symbols','summaries','solved','focus','rest'].includes(t))return;
+pushNav();clearTimers();
+if(t==="solved")t="pages";
+s.tab=t;
+if(t==="pages"){s.page=null;s.problem=null;s.bookPicker=true;}
+if(t==="laws")s.lawCategory=null;
+if(t==="derivations")s.law=null;
+render();}
+function page(n){if(!gpage(n))return;pushNav();clearTimers();s.page=n;s.bookPicker=true;s.problem=null;s.tab="pages";render();}
+function choose(n){const p=problem(n);if(!p)return;if(s.page!==p.page){page(p.page);return;}pushNav();clearTimers();s.problem=n;s.page=p.page;s.tab="solved";render();}
+function derivation(i){if(i<0||i>=LAW_DATA.length)return;pushNav();clearTimers();s.law=i;s.tab="derivations";render();}
+function lawGroup(i){if(i<0||i>=LAW_GROUPS.length)return;pushNav();clearTimers();s.tab="laws";s.lawCategory=i;render();}
 function btn(title,action,primary){return '<button class="plain-btn'+(primary?' primary':'')+'" onclick="'+action+'">'+e(title)+'</button>'}
 function foot(a,b){return '<div class="foot">'+a+b+'</div>'}
 function book(g){return '<button class="choice" style="--c:'+g.color+'" onclick="page('+g.n+')"><span class="number">'+g.n+'</span><strong>'+e(g.title)+'</strong><small>'+e(g.sub)+'</small></button>'}
 function prob(p){return '<button class="choice" style="--c:'+gpage(p.page).color+'" onclick="choose('+p.num+')"><strong>السؤال '+p.num+' — '+e(p.title)+'</strong><small>'+p.parts.length+' جزء/أجزاء • شرح كامل في صفحة واحدة</small></button>'}
 function pages(){
-if(s.page===null){
-const data=[
-["▤","صفحات الكتاب","صفحات 49 و56 و57؛ اختاري الصفحة ثم السؤال","tab('pages')","maroon"],
-["✎","المسائل المحلولة","مسألة واحدة مع شرحها وحلها بالتدرج","tab('solved')",""],
-["∑","القوانين فقط","الصيغ ومعنى استخدامها","tab('laws')",""],
-["↗","الاشتقاقات","كيف نصل إلى القانون من الفكرة؟","tab('derivations')","maroon"],
-["π","الرموز والثوابت والوحدات","تحويلات ووحدات تساعدك في الحل","tab('symbols')",""],
-["≡","ملخصات وتعاريف","مفاهيم وملاحظات قبل حل المسائل","tab('summaries')",""],
-["◈","مسرح الستارة والذاكرة","أرقام ورسومات تختفي ثم سؤال تذكّر","tab('focus')","gold"],
-["✦","كلمات مشجعة تفاعلية","اضغطي على الكلمات لتغييرها وصنع عبارتكِ","tab('rest')","maroon"]
+if(s.page===null&&!s.bookPicker){
+const cards=[
+["▤","صفحات الكتاب والمسائل","اختاري صفحة 49 أو 56 أو 57 ثم اضغطي مربع السؤال","tab('pages')","maroon"],
+["∑","مجموعات القوانين","قوانين الجاذبية والسرعة والزمن الدوري وغيرها","tab('laws')",""],
+["↗","الاشتقاقات","استنتاج كل علاقة في خطوات مفسرة","tab('derivations')","maroon"],
+["π","الرموز والثوابت والوحدات","مرجع التحويلات قبل الحل","tab('symbols')",""],
+["≡","ملخصات وتعاريف","مفاهيم علمية تساعدكِ على الفهم","tab('summaries')",""],
+["◈","مسرح الستارة والذاكرة","رسومات وأشكال وأرقام وأسئلة تذكّر","tab('focus')","gold"],
+["✦","رسالة تناسب لحظتكِ","تشجيع قبل البدء أو عند الصعوبة أو بعد المحاولة","tab('rest')","maroon"]
 ];
-return show('<div class="app-home-cover"><div class="eyebrow">أهلًا بكِ • تطبيق مراجعة الفيزياء</div><h1>كل مسألة تستحق وقتها.</h1><p>اختاري وجهتكِ من البطاقات المرتبة تحت بعضها، وارجعي للرئيسية متى أحببتِ.</p><div class="by">إعداد وتصميم: الأستاذة حفصة طيبي<small>مدرسة العب الثانوية للبنات • قسم الفيزياء • 2026/2027</small></div></div><h2 class="section-title">إلى أين تريدين الذهاب؟</h2><div class="app-menu-stack">'+data.map(x=>appCard(...x)).join('')+'</div><div class="paper-summary">نفس أسلوب التنقل على الكمبيوتر والتابلت والجوال. لا يوجد أي مؤقت إلزامي أثناء حل المسائل.</div>');
+return show('<div class="app-home-cover"><div class="eyebrow">أهلًا بكِ في تطبيق المراجعة</div><h1>مسألة واحدة… وفكرة تتضح.</h1><p>ابدئي من صفحة الكتاب، ثم اختاري مربع السؤال. يمكنكِ الرجوع إلى القوانين في أي وقت.</p><div class="by">إعداد وتصميم: الأستاذة حفصة طيبي<small>مدرسة العب الثانوية للبنات • قسم الفيزياء • 2026/2027</small></div></div><h2 class="section-title">اختاري وجهتكِ</h2><div class="app-menu-stack">'+cards.map(x=>appCard(...x)).join('')+'</div>');
 }
-const g=gpage(s.page);
-return show('<div class="eyebrow">الكتاب المدرسي • الصف الثاني عشر</div><h1 class="title">مسائل صفحة '+g.n+'</h1><p class="subtitle">'+e(g.sub)+'</p><div class="app-menu-stack">'+PROBLEMS.filter(p=>p.page===g.n).map(p=>appCard(String(p.num),"السؤال "+p.num+" — "+p.title,p.parts.length>1?p.parts.length+" أجزاء مجتمعة في صفحة واحدة":"شرح مستقل وكامل","choose("+p.num+")",p.parts.length>1?"maroon":"")).join('')+'</div>'+foot(btn('→ جميع صفحات الكتاب',"tab('pages')"),btn('القوانين ←',"tab('laws')",true)));
+if(s.page===null){
+return show('<div class="book-picker-top"><h2>اختاري صفحة الكتاب أولًا</h2><p>بعد اختيار الصفحة تظهر مسائلها في مربعات مستقلة. اضغطي على المربع الذي تريدين دراسته.</p></div><div class="app-menu-stack">'+GROUPS.map(g=>appCard(String(g.n),"صفحة "+g.n+" — "+g.title,g.sub,"page("+g.n+")",g.n===49?"maroon":g.n===56?"gold":"")).join('')+'</div><div class="actions-row"><button class="plain-btn" onclick="appHome()">→ الصفحة الرئيسية</button></div>');
+}
+const g=gpage(s.page),pp=PROBLEMS.filter(p=>p.page===g.n);
+return show('<div class="eyebrow">الكتاب المدرسي • صفحة '+g.n+'</div><h1 class="title">اختاري مربع المسألة</h1><p class="subtitle">'+e(g.title)+' — '+e(g.sub)+'</p>'+
+'<div class="book-square-grid">'+pp.map(p=>'<button class="book-square" style="--bookcolor:'+e(g.color)+'" onclick="choose('+p.num+')" aria-label="السؤال '+p.num+' — '+e(p.title)+'"><span class="sq-num">'+p.num+'</span><span class="sq-title">'+e(p.title)+'</span><span class="sq-parts">'+(p.parts.length>1?p.parts.length+' أجزاء معًا':'مسألة واحدة')+'</span></button>').join('')+'</div>'+
+'<div class="guide-bar">تفتح المسألة كاملة: المعطيات والمطلوب والقوانين والتحويلات وخطوات الحل والتفسير.</div><div class="actions-row">'+btn('→ اختيار صفحة أخرى',"tab('pages')")+'</div>');
 }
 function laws(){show('<div class="narrow"><div class="eyebrow">القانون ومعنى استخدامه</div><h1 class="title">القوانين فقط</h1><p class="subtitle">هنا الصيغ الأساسية ومتى نستعمل كل واحدة. خطوات الاشتقاق موجودة في تبويب مستقل.</p></div><div class="lawgrid">'+FORMULAS.map((x,i)=>'<article class="lawcard"><div class="eyebrow">القانون '+(i+1)+'</div><h3>'+e(x[0])+'</h3>'+eq(x[1])+'<p>'+e(x[2])+'</p></article>').join('')+'</div>'+foot(btn('→ صفحات الكتاب',"tab('pages')"),btn('الاشتقاقات ←',"tab('derivations')",true)))}
 function step(x,i,reason,color){return '<div class="step" style="--c:'+(color||'#0b778b')+'"><span class="bubble">'+(i+1)+'</span><div><h4>'+e(x.title)+'</h4><p>'+e(x.body)+'</p>'+(x.formula?eq(x.formula):'')+(reason?'<div class="why"><b>لماذا فعلنا هذه الخطوة؟</b>'+e(reason)+'</div>':'')+'</div></div>'}
@@ -186,10 +211,15 @@ return '<section class="part" id="part-'+l.n+'" style="--c:'+color+'"><div class
 '<article class="paper"><h3><em>6</em> الحل خطوة بخطوة</h3>'+calc+'</article>'+
 '<article class="paper"><h3><em>7</em> النتيجة والتفسير</h3><div class="answer"><b>الإجابة النهائية</b><p>'+e(l.result)+'</p></div><h3 style="margin-top:21px">ما معنى الإجابة؟</h3><p class="para">'+e(l.meaning)+'</p><div class="warn"><b>احذري هذا الخطأ الشائع</b>'+e(l.warning)+'</div></article>'+
 '<article class="paper"><h3><em>8</em> مساحتي الخاصة للحل</h3>'+practicePart(l)+'</article></section>'}
-function solved(){if(s.problem===null){return show('<div class="narrow"><div class="eyebrow">مسألة واحدة مع الشرح كاملًا</div><h1 class="title">المسائل المحلولة</h1><p class="subtitle">اضغطي على رقم السؤال؛ ستجدين الأجزاء المرتبطة به معًا، وتحت كل جزء المعطيات والقوانين والحل والتفسير.</p></div>'+GROUPS.map(g=>'<h2 class="section-title" style="margin-top:38px">صفحة '+g.n+' — '+e(g.title)+'</h2><div class="grid">'+PROBLEMS.filter(p=>p.page===g.n).map(prob).join('')+'</div>').join(''))}
-const p=problem(s.problem),ix=PROBLEMS.indexOf(p),previous=PROBLEMS[ix-1],next=PROBLEMS[ix+1];
-const jump=p.parts.length>1?'<nav class="jumps">'+p.parts.map(n=>'<a href="#part-'+n+'">السؤال '+e(DATA[n].id)+'</a>').join('')+'</nav>':'';
-return show('<div class="question-group"><div class="back">'+btn('→ صفحة الكتاب '+p.page,'page('+p.page+')')+'<small>صفحة '+p.page+' • السؤال '+p.num+'</small></div><header class="group-head"><div class="eyebrow">شرح كامل دون استعجال</div><h1>السؤال '+p.num+' — '+e(p.title)+'</h1><p>جميع أجزاء المسألة متتابعة بترتيبها، ولكل جزء مساحته.</p>'+jump+'</header>'+p.parts.map(i=>part(DATA[i])).join('')+foot(previous?btn('→ السؤال السابق','choose('+previous.num+')'):btn('→ صفحة '+p.page,'page('+p.page+')'),next?btn('السؤال التالي ←','choose('+next.num+')',true):btn('فهرس المسائل ←',"tab('solved')",true))+'</div>')}
+function solved(){
+if(s.problem===null){s.tab="pages";s.bookPicker=true;s.page=null;return pages();}
+const p=problem(s.problem);
+const jump=p.parts.length>1?'<nav class="jumps">'+p.parts.map(n=>'<a href="#part-'+n+'">الجزء '+e(DATA[n].id)+'</a>').join('')+'</nav>':'';
+return show('<div class="question-group"><div class="back">'+btn('→ مربعات صفحة '+p.page,'page('+p.page+')')+'<small>صفحة '+p.page+' • السؤال '+p.num+'</small></div>'+
+'<header class="group-head"><div class="eyebrow">شرح المسألة كاملة</div><h1>السؤال '+p.num+' — '+e(p.title)+'</h1><p>كل جزء له معطياته، وقوانينه، وتحويلاته، وحله وتفسيره.</p>'+jump+'</header>'+
+p.parts.map(i=>part(DATA[i])).join('')+
+'<div class="actions-row">'+btn('→ العودة إلى مربعات الصفحة',"page("+p.page+")")+btn('القوانين ←',"tab('laws')",true)+'</div></div>');
+}
 function render(){if(s.tab==='pages')pages();if(s.tab==='laws')laws();if(s.tab==='derivations')derivations();if(s.tab==='symbols')sym();if(s.tab==='summaries')summaries();if(s.tab==='solved')solved();if(s.tab==='focus')focus();if(s.tab==='rest')rest()}
 const MEMORY_ROUNDS=[{"kind":"digits","title":"سرّ الأرقام","time":12,"question":"ما الرقم الثالث من جهة اليمين؟","answers":["2","8","4","9"],"correct":1,"why":"السلسلة من اليمين: 5، 2، 8، 4، 9. الرقم الثالث هو 8."},{"kind":"orbit","title":"أقمار حول الأرض","time":14,"question":"كم قمرًا تركوازيًا كان حول الأرض؟","answers":["2","3","4","5"],"correct":1,"why":"ظهرت 3 أقمار تركوازية، ومعها قمر عنابي واحد."},{"kind":"colors","title":"مربعات ملونة","time":12,"question":"ما لون المربع الموجود في الوسط؟","answers":["عنابي","ذهبي","تركوازي","أبيض"],"correct":1,"why":"كان المربع الأوسط باللون الذهبي."},{"kind":"shapes","title":"تسلسل الأشكال","time":12,"question":"ما الشكل الثاني من جهة اليمين؟","answers":["نجمة","دائرة","مثلث","مربع"],"correct":1,"why":"الأشكال من اليمين إلى اليسار: نجمة، دائرة، مثلث، مربع."},{"kind":"ring","title":"مدار الأرقام","time":15,"question":"ما الرقم الموجود أسفل المدار؟","answers":["2","5","7","9"],"correct":2,"why":"كان الرقم 7 أسفل المدار مباشرة."},{"kind":"digits2","title":"آخر رقم","time":10,"question":"ما آخر رقم من جهة اليسار؟","answers":["3","4","6","9"],"correct":0,"why":"السلسلة من اليمين إلى اليسار هي 4، 6، 1، 9، 3، والأخير جهة اليسار هو 3."}];
 let memory={index:0,phase:"ready",seconds:12,chosen:null};
